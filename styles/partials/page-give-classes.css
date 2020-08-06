@@ -135,7 +135,24 @@
         column-gap: 1.6rem; 
     }
 
-    
+    #page-give-classes #schedule-items .select-block+.input-block,
+    #page-give-classes #schedule-items .input-block+.input-block{
+        /* #schedule-items para alterar somente nesse id*/
+        /* poderia usar 'important' mas é bom evitar*/
+        margin-top: 0;
+    }
+
+    #page-give-classes main footer{
+        padding: 40px 64px;
+        display: flex;
+        align-content: center;
+        justify-content: space-between;
+    }
+
+    #page-give-classes main footer button{
+        margin-top: 0;
+        width: 200px;
+    }
 
 
 }
