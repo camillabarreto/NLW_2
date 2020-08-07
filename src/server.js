@@ -1,5 +1,4 @@
-const express = require("express")
-const server = express()
+//DADOS
 
 const proffys = [
     {
@@ -37,27 +36,80 @@ const proffys = [
     }
 ]
 
+const subjects = [
+    "Artes",
+    "Biologia",
+    "Ciências",
+    "Educação física",
+    "Física",
+    "Geografia",
+    "História",
+    "Matemática",
+    "Português",
+    "Química",
+]
+
+const weekdays = [
+    "Domingo",
+    "Segunda-feira",
+    "Terça-feira",
+    "Quarta-feira",
+    "Quinta-feira",
+    "Sexta-feira",
+    "Sábado",
+]
+
+// FUNCIONALIDADES
+
+function getSubject(subjectNumber) {
+    const position = + subjectNumber - 1;
+    return subjects[position]
+}
+
 function pageLanding(req, res) {
     return res.render("index.html")
 }
 
 function pageStudy(req, res) {
-    // console.log(req.query)
-    const filters = req.query
-    // return res.render("study.html", { proffys, filters })
-    return res.render("study.html", { proffys })
+    console.log(req.query)
+    const filters = req.query /* para manter os valores selecionados do filtro */
+    return res.render("study.html", { proffys, filters, subjects, weekdays })
+    // return res.render("study.html", { proffys })
 }
 
 function pageGiveClasses(req, res) {
-    return res.render("give-classes.html")
+
+    const data = req.query
+    // console.log(dados)
+
+    const isNotEmpty = Object.keys(data).length != 0
+    if (isNotEmpty) {
+
+        data.subject = getSubject(data.subject)
+
+        //adicionar dados a lista de proffys
+        proffys.push(data)
+
+        return res.redirect("/study")
+    }
+
+    return res.render("give-classes.html", { subjects, weekdays })
 }
 
-//configurar nunjucks
+//SERVIDOR
+
+const express = require("express")
+const server = express()
+
+//CONFIGURAÇÃO NUNJUCKS (TEMPLATE ENGINE)
+
 const nunjucks = require('nunjucks')
 nunjucks.configure("src/views", {
     express: server,
     noCache: true,
 })
+
+//INICIO E CONFIGURAÇÃO DO SERVIDOR
 
 server
     //configurar arquivos estaticos (css, scripts, images)
@@ -66,4 +118,5 @@ server
     .get("/", pageLanding)
     .get("/study", pageStudy)
     .get("/give-classes", pageGiveClasses)
+    //start do servidor
     .listen(5500)
