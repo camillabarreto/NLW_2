@@ -1,3 +1,6 @@
+const express = require("express")
+const server = express()
+
 const proffys = [
     {
         name: "Diego Fernandes",
@@ -39,15 +42,15 @@ function pageLanding(req, res) {
 }
 
 function pageStudy(req, res) {
+    // console.log(req.query)
+    const filters = req.query
+    // return res.render("study.html", { proffys, filters })
     return res.render("study.html", { proffys })
 }
 
 function pageGiveClasses(req, res) {
     return res.render("give-classes.html")
 }
-
-const express = require("express")
-const server = express()
 
 //configurar nunjucks
 const nunjucks = require('nunjucks')
