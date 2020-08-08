@@ -12,7 +12,7 @@ Database.then(async (db) => {
     }
 
     classValue = {
-        subject: "Química",
+        subject: 1,
         cost: "20,00",
         //o proffy id vira pelo banco de dados
     }
@@ -47,5 +47,15 @@ Database.then(async (db) => {
         JOIN classes ON (classes.proffy_id = proffys.id)
         WHERE classes.proffy_id = 1;
     `)
-    console.log(selectedClassesAndProffys)
+    // console.log(selectedClassesAndProffys)
+
+    const selectedClassesSchedule = await db.all(`
+        SELECT class_schedule.*
+        FROM class_schedule
+        WHERE class_schedule.class_id = 1
+        AND class_schedule.weekday = "0"
+        AND class_schedule.time_from <= "620"
+        AND class_schedule.time_to > "520"
+    `)
+    // console.log(selectedClassesSchedule)
 })
